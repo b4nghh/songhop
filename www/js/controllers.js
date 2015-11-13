@@ -1,13 +1,16 @@
 angular.module('songhop.controllers', ['ionic', 'songhop.services'])
 
-.controller('TabsCtrl', function($scope, Recommendations) {
+.controller('TabsCtrl', function($scope, User, Recommendations) {
   $scope.enteringFavorites = function() {
+    User.newFavorites = 0;
     Recommendations.haltAudio();
   }
 
   $scope.leavingFavorites = function() {
     Recommendations.init();
   }
+
+  $scope.favCount = User.favoriteCount;
 })
 
 .controller('DiscoverCtrl', function($scope, $ionicLoading, $timeout, User, Recommendations) {
@@ -63,10 +66,14 @@ angular.module('songhop.controllers', ['ionic', 'songhop.services'])
   }
 })
 
-.controller('FavoritesCtrl', function($scope, User) {
+.controller('FavoritesCtrl', function($scope, $window, User) {
   $scope.favorites = User.favorites;
 
   $scope.removeSong = function(song, index) {
     User.removeSongFromFavorites(song, index);
+  }
+
+  $scope.openSong = function(song) {
+    $window.open(song.open_url, "_system");
   }
 });
