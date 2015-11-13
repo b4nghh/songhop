@@ -1,6 +1,16 @@
 angular.module('songhop.controllers', ['ionic', 'songhop.services'])
 
-.controller('TabsCtrl', function($scope, User, Recommendations) {
+.controller('SplashCtrl', function($scope, $state, User) {
+  $scope.submitForm = function(username, signingUp) {
+    User.auth(username, signingUp).then(function() {
+      $state.go('tab.discover');
+    }, function() {
+      alert('Hmm... try another username.');
+    });
+  }
+})
+
+.controller('TabsCtrl', function($scope, $window, User, Recommendations) {
   $scope.enteringFavorites = function() {
     User.newFavorites = 0;
     Recommendations.haltAudio();
@@ -11,6 +21,14 @@ angular.module('songhop.controllers', ['ionic', 'songhop.services'])
   }
 
   $scope.favCount = User.favoriteCount;
+
+  $scope.logout = function() {
+    User.destroySession();
+
+    // instead of using $state.go, we're going to redirect.
+    // reason: we need to ensure views aren't cached.
+    $window.location.href = '/';
+  }
 })
 
 .controller('DiscoverCtrl', function($scope, $ionicLoading, $timeout, User, Recommendations) {
@@ -67,6 +85,7 @@ angular.module('songhop.controllers', ['ionic', 'songhop.services'])
 })
 
 .controller('FavoritesCtrl', function($scope, $window, User) {
+  $scope.username = User.username;
   $scope.favorites = User.favorites;
 
   $scope.removeSong = function(song, index) {
