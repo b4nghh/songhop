@@ -1,4 +1,4 @@
-angular.module('songhop', ['ionic', 'songhop.controllers'])
+angular.module('songhop', ['ionic', 'ngCordova', 'songhop.controllers'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

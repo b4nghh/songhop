@@ -4,10 +4,12 @@
   </ion-nav-buttons>
   <ion-content>
     <ion-list>
-      <ion-item class="item-avatar" ng-repeat="song in favorites" ng-click="openSong(song)">
+      <ion-item class="item-avatar item-icon-right" ng-repeat="song in favorites" ng-click="openSong(song)">
         <img ng-src="{{song.image_small}}">
         <h2>{{song.title}}</h2>
         <p>{{song.artist}}</p>
+
+        <i class="icon ion-android-share positive" ng-click="shareAction(song); $event.stopPropagation();"></i>
 
         <ion-option-button class="button-assertive" ng-click="removeSong(song, $index)">
           <i class="ion-minus-circled"></i>

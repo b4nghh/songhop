@@ -95,7 +95,7 @@ angular.module('songhop.services', ['ionic.utils'])
     return $http({
       method: 'DELETE',
       url: SERVER.url + '/favorites',
-      params: {session_id: o.session_id, song_id: song_id}
+      params: {session_id: o.session_id, song_id: song.song_id}
     })
   }
 

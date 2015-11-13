@@ -1,4 +1,4 @@
-angular.module('songhop.controllers', ['ionic', 'songhop.services'])
+angular.module('songhop.controllers', ['ionic', 'ngCordova', 'songhop.services'])
 
 .controller('SplashCtrl', function($scope, $state, User) {
   $scope.submitForm = function(username, signingUp) {
@@ -84,7 +84,7 @@ angular.module('songhop.controllers', ['ionic', 'songhop.services'])
   }
 })
 
-.controller('FavoritesCtrl', function($scope, $window, User) {
+.controller('FavoritesCtrl', function($scope, $window, $timeout, $cordovaSocialSharing, $ionicActionSheet, $ionicPlatform, User) {
   $scope.username = User.username;
   $scope.favorites = User.favorites;
 
@@ -95,4 +95,16 @@ angular.module('songhop.controllers', ['ionic', 'songhop.services'])
   $scope.openSong = function(song) {
     $window.open(song.open_url, "_system");
   }
+
+  $scope.shareAction = function(song) {
+    // Show the action sheet
+    $cordovaSocialSharing
+      .share("This is your message", "This is your subject", "www/img/ionic.png", song.open_url) // Share via native share sheet
+      .then(function(result) {
+        // Success!
+      }, function(err) {
+        // An error occured. Show a message to the user
+      });
+
+  };
 });
